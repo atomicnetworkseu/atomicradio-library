@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import eu.atomicradio.managers.SocketManager;
 import eu.atomicradio.objects.Channel;
 import java.util.Arrays;
+import java.util.logging.Logger;
 
 /**
  *
@@ -15,35 +16,13 @@ import java.util.Arrays;
 public class AtomicClient {
 
     private Gson gson;
+    private Logger logger;
     private SocketManager socketManager;
 
     public AtomicClient() {
         this.gson = new Gson();
         this.socketManager = new SocketManager(this);
-    }
-
-    public void test1(Channel channel) {
-        System.out.println("=================================");
-        System.out.println(channel.getName());
-        System.out.println(channel.getListeners());
-        System.out.println(channel.getStreamUrls().getHighquality());
-        System.out.println(channel.getStreamUrls().getMiddlequality());
-        System.out.println(channel.getStreamUrls().getLowquality());
-        System.out.println("=================================");
-    }
-
-    public void test(Channel.Song song) {
-        System.out.println("=================================");
-        System.out.println(song.getArtist() + " - " + song.getTitle());
-        System.out.println("Playlist: " + song.getPlaylist());
-        System.out.println("Start_At: " + song.getStart_at());
-        System.out.println("End_At: " + song.getEnd_at());
-        System.out.println("Duration: " + song.getDuration());
-        System.out.println("Art100: " + song.getArtworks().getArt100());
-        System.out.println("Art250: " + song.getArtworks().getArt250());
-        System.out.println("Art500: " + song.getArtworks().getArt500());
-        System.out.println("Art1000: " + song.getArtworks().getArt1000());
-        System.out.println("=================================");
+        this.logger = Logger.getLogger("eu.atomicradio");
     }
     
     /**
@@ -148,6 +127,10 @@ public class AtomicClient {
 
     public Gson getGson() {
         return gson;
+    }
+
+    public Logger getLogger() {
+        return logger;
     }
 
 }

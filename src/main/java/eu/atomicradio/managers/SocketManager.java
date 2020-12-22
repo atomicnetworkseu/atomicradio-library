@@ -6,6 +6,8 @@ import io.socket.client.IO;
 import io.socket.client.Socket;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -37,13 +39,13 @@ public class SocketManager {
 
     private void initListeners() {
         socket.on(Socket.EVENT_CONNECT, (Object... os) -> {
-            System.out.println("The connection to the Socket.IO server has been established.");
+            this.client.getLogger().info("The connection to the Socket.IO server has been established.");
         });
         socket.on(Socket.EVENT_CONNECT_ERROR, (Object... os) -> {
-            System.out.println("SOCKET.IO CONNECTION ERROR");
+            this.client.getLogger().warning("Connection error to the socket.io server.");
         });
         socket.on(Socket.EVENT_DISCONNECT, (Object... os) -> {
-            System.out.println("SOCKET.IO DISCONNECTED");
+            this.client.getLogger().warning("The connection to the socket.io server has been closed.");
         });
         socket.on("one", (Object... os) -> {
             JSONObject jsonObject = new JSONObject(os[0].toString());
