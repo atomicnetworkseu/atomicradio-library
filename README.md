@@ -38,9 +38,10 @@ private AtomicClient atomicClient;
 private void test() {
   this.atomicClient = new AtomicClient();
   
-  String artist = this.atomicClient.getChannelOne().getSong().getArtist();
-  String title = this.atomicClient.getChannelOne().getSong().getTitle();
-  System.out.println(artist + " - " + title);
+  Channel channel = this.atomicClient.getChannelOne();
+  Channel.Song song = channel.getSong();
+  
+  System.out.println(MessageFormat.format("[{0}] {1} - {2}", channel.getName(), song.getArtist(), song.getTitle()));
 }
 ```
 
