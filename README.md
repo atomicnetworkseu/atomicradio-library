@@ -27,7 +27,7 @@
 <dependency>
     <groupId>com.github.atomicnetworkseu</groupId>
     <artifactId>atomicradio-library</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
 </dependency>
 ```
 
