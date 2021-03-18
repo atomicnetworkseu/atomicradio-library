@@ -109,9 +109,9 @@ public class AtomicClient {
         song.setArtworks(artworks);
 
         Channel.StreamUrls streamUrls = new Channel.StreamUrls();
-        streamUrls.setHighquality("https://listen.atomicradio.eu/" + channelName + "/highquality.mp3");
-        streamUrls.setMiddlequality("https://listen.atomicradio.eu/" + channelName + "/middlequality.mp3");
-        streamUrls.setLowquality("https://listen.atomicradio.eu/" + channelName + "/lowquality.mp3");
+        streamUrls.setHighquality("https://listen.atomicradio.eu/" + channelName + "/highquality");
+        streamUrls.setMiddlequality("https://listen.atomicradio.eu/" + channelName + "/middlequality");
+        streamUrls.setLowquality("https://listen.atomicradio.eu/" + channelName + "/lowquality");
 
         channel.setSong(song);
         channel.setHistory(Arrays.asList(song));
