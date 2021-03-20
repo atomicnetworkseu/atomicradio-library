@@ -1,8 +1,10 @@
-name: Check pull request
+name: Build and Test on develop
 
 on:
   pull_request:
-    branches: [ master ]
+    branches: [ develop ]
+  push:
+    branches: [ develop ]
 
 jobs:
   compile:
@@ -57,4 +59,10 @@ jobs:
         key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
         restore-keys: ${{ runner.os }}-m2
     - name: Build with Maven
-      run: mvn -B package --file pom.xml -Dmaven.test.skip=true
+      run: mvn -B package install --file pom.xml -Dmaven.test.skip=true
+    - name: Copy target data to staging
+      run: mkdir staging && cp target/*.jar staging
+    - uses: actions/upload-artifact@v2
+      with:
+        name: Package
+        path: staging
