@@ -102,10 +102,10 @@ public class AtomicClient {
         song.setEnd_at(System.currentTimeMillis());
 
         Channel.Song.Artworks artworks = new Channel.Song.Artworks();
-        artworks.setArt100(Arrays.asList("https://cdn.atomicnetworks.eu/radio/fallback/loading-0100.jpg"));
-        artworks.setArt250(Arrays.asList("https://cdn.atomicnetworks.eu/radio/fallback/loading-0250.jpg"));
-        artworks.setArt500(Arrays.asList("https://cdn.atomicnetworks.eu/radio/fallback/loading-0500.jpg"));
-        artworks.setArt1000(Arrays.asList("https://cdn.atomicnetworks.eu/radio/fallback/loading-1000.jpg"));
+        artworks.setArt100(Arrays.asList("https://cdn.atomicradio.eu/artworks/fallback/0100.jpg"));
+        artworks.setArt250(Arrays.asList("https://cdn.atomicradio.eu/artworks/fallback/0250.jpg"));
+        artworks.setArt500(Arrays.asList("https://cdn.atomicradio.eu/artworks/fallback/0500.jpg"));
+        artworks.setArt1000(Arrays.asList("https://cdn.atomicradio.eu/artworks/fallback/1000.jpg"));
         song.setArtworks(artworks);
 
         Channel.StreamUrls streamUrls = new Channel.StreamUrls();
