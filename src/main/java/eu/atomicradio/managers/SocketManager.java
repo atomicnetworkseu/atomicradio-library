@@ -6,8 +6,6 @@ import io.socket.client.IO;
 import io.socket.client.Socket;
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -48,6 +46,11 @@ public class SocketManager {
             this.client.getLogger().warning("The connection to the socket.io server has been closed.");
         });
         socket.on("one", (Object... os) -> {
+            if(os[0].toString() == null) {
+                this.channelTrap = null;
+                this.jsonObjectTrap = null;
+                return;
+            }
             JSONObject jsonObject = new JSONObject(os[0].toString());
             jsonObject.getJSONObject("song").getJSONObject("artworks").append("art100", jsonObject.getJSONObject("song").getJSONObject("artworks").getString("100"));
             jsonObject.getJSONObject("song").getJSONObject("artworks").append("art250", jsonObject.getJSONObject("song").getJSONObject("artworks").getString("250"));
@@ -74,6 +77,11 @@ public class SocketManager {
             this.jsonObjectOne = jsonObject;
         });
         socket.on("dance", (Object... os) -> {
+            if(os[0].toString() == null) {
+                this.channelTrap = null;
+                this.jsonObjectTrap = null;
+                return;
+            }
             JSONObject jsonObject = new JSONObject(os[0].toString());
             jsonObject.getJSONObject("song").getJSONObject("artworks").append("art100", jsonObject.getJSONObject("song").getJSONObject("artworks").getString("100"));
             jsonObject.getJSONObject("song").getJSONObject("artworks").append("art250", jsonObject.getJSONObject("song").getJSONObject("artworks").getString("250"));
@@ -100,6 +108,11 @@ public class SocketManager {
             this.jsonObjectDance = jsonObject;
         });
         socket.on("trap", (Object... os) -> {
+            if(os[0].toString() == null) {
+                this.channelTrap = null;
+                this.jsonObjectTrap = null;
+                return;
+            }
             JSONObject jsonObject = new JSONObject(os[0].toString());
             jsonObject.getJSONObject("song").getJSONObject("artworks").append("art100", jsonObject.getJSONObject("song").getJSONObject("artworks").getString("100"));
             jsonObject.getJSONObject("song").getJSONObject("artworks").append("art250", jsonObject.getJSONObject("song").getJSONObject("artworks").getString("250"));
@@ -126,6 +139,7 @@ public class SocketManager {
             this.jsonObjectTrap = jsonObject;
         });
         socket.on("listeners", (Object... os) -> {
+            if(os[0].toString() == null) this.allListeners = 0;
             this.allListeners = Integer.valueOf(os[0].toString());
         });
     }
