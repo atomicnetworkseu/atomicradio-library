@@ -27,7 +27,7 @@
 <dependency>
     <groupId>com.github.atomicnetworkseu</groupId>
     <artifactId>atomicradio-library</artifactId>
-    <version>1.0.1</version>
+    <version>2.0.0</version>
 </dependency>
 ```
 
@@ -38,7 +38,7 @@ private AtomicClient atomicClient;
 private void test() {
   this.atomicClient = new AtomicClient();
   
-  Channel channel = this.atomicClient.getChannelOne();
+  Channel channel = this.atomicClient.getChannel(Channels.ONE);
   Channel.Song song = channel.getSong();
   
   System.out.println(MessageFormat.format("[{0}] {1} - {2}", channel.getName(), song.getArtist(), song.getTitle()));
@@ -49,26 +49,26 @@ private void test() {
 ```java
 /**
  * Returns the live status of the channel atr.one.
+ * @return Returns the live status.
  */
 .isLive();
 
 /**
  * Returns the streamer name when someone is live at atr.one.
+ * @return Returns the name of the streamer.
  */
 .getStreamer();
  
 /**
- * Returns all channel informations of atr.one.
+ * Returns all informations about a channel.
+ * @param channel
+ * @return Returns the channel object.
  */
-.getChannelOne()
+.getChannel(Channels channel);
 
 /**
- * Returns all channel informations of atr.dance.
+ * Returns the listener count of all channels.
+ * @return Returns the listener count as a Integer.
  */
-.getChannelDance()
-
-/**
- * Returns all channel informations of atr.trap.
- */
-.getChannelTrap()
+.getAllListeners();
 ```
