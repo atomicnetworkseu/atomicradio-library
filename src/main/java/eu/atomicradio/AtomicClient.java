@@ -3,6 +3,7 @@ package eu.atomicradio;
 import com.google.gson.Gson;
 import eu.atomicradio.managers.SocketManager;
 import eu.atomicradio.objects.Channel;
+import eu.atomicradio.objects.Channels;
 import java.util.Arrays;
 import java.util.logging.Logger;
 
@@ -48,36 +49,15 @@ public class AtomicClient {
     }
 
     /**
-     * Returns all channel informations of atr.one.
+     * Returns all informations about a channel.
+     * @param channel
      * @return Returns the channel object.
      */
-    public Channel getChannelOne() {
-        if (this.socketManager.getChannelOne() == null) {
+    public Channel getChannel(Channels channel) {
+        if (this.socketManager.getChannel(channel) == null) {
             return this.getLoadingChannel("one");
         }
-        return this.socketManager.getChannelOne();
-    }
-
-    /**
-     * Returns all channel informations of atr.dance.
-     * @return Returns the channel object.
-     */
-    public Channel getChannelDance() {
-        if (this.socketManager.getChannelDance() == null) {
-            return this.getLoadingChannel("dance");
-        }
-        return this.socketManager.getChannelDance();
-    }
-
-    /**
-     * Returns all channel informations of atr.trap.
-     * @return Returns the channel object.
-     */
-    public Channel getChannelTrap() {
-        if (this.socketManager.getChannelTrap() == null) {
-            return this.getLoadingChannel("trap");
-        }
-        return this.socketManager.getChannelTrap();
+        return this.socketManager.getChannel(channel);
     }
 
     /**

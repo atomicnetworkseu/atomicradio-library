@@ -2,10 +2,13 @@ package eu.atomicradio.managers;
 
 import eu.atomicradio.AtomicClient;
 import eu.atomicradio.objects.Channel;
+import eu.atomicradio.objects.Channels;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -20,16 +23,13 @@ public class SocketManager {
 
     private final AtomicClient client;
     private final Socket socket;
+    private HashMap<Channels, Channel> channels;
     private JSONObject jsonObjectOne;
-    private JSONObject jsonObjectDance;
-    private JSONObject jsonObjectTrap;
-    private Channel channelOne;
-    private Channel channelDance;
-    private Channel channelTrap;
     private int allListeners;
 
     public SocketManager(AtomicClient client) {
         this.client = client;
+        this.channels = new HashMap<>();
         this.socket = IO.socket(URI.create("https://api.atomicradio.eu"));
         initListeners();
         this.socket.connect();
@@ -47,8 +47,8 @@ public class SocketManager {
         });
         socket.on("one", (Object... os) -> {
             if(os[0].toString() == null) {
-                this.channelTrap = null;
-                this.jsonObjectTrap = null;
+                this.channels.remove(Channels.ONE);
+                this.jsonObjectOne = null;
                 return;
             }
             JSONObject jsonObject = new JSONObject(os[0].toString());
@@ -73,13 +73,12 @@ public class SocketManager {
                 t.getJSONObject("artworks").append("art1000", (String) t.getJSONObject("artworks").getString("1000"));
             });
 
-            this.channelOne = this.client.getGson().fromJson(jsonObject.toString(), Channel.class);
+            this.channels.put(Channels.ONE, this.client.getGson().fromJson(jsonObject.toString(), Channel.class));
             this.jsonObjectOne = jsonObject;
         });
         socket.on("dance", (Object... os) -> {
             if(os[0].toString() == null) {
-                this.channelTrap = null;
-                this.jsonObjectTrap = null;
+                this.channels.remove(Channels.DANCE);
                 return;
             }
             JSONObject jsonObject = new JSONObject(os[0].toString());
@@ -104,13 +103,11 @@ public class SocketManager {
                 t.getJSONObject("artworks").append("art1000", (String) t.getJSONObject("artworks").getString("1000"));
             });
 
-            this.channelDance = this.client.getGson().fromJson(jsonObject.toString(), Channel.class);
-            this.jsonObjectDance = jsonObject;
+            this.channels.put(Channels.DANCE, this.client.getGson().fromJson(jsonObject.toString(), Channel.class));
         });
         socket.on("trap", (Object... os) -> {
             if(os[0].toString() == null) {
-                this.channelTrap = null;
-                this.jsonObjectTrap = null;
+                this.channels.remove(Channels.TRAP);
                 return;
             }
             JSONObject jsonObject = new JSONObject(os[0].toString());
@@ -135,8 +132,7 @@ public class SocketManager {
                 t.getJSONObject("artworks").append("art1000", (String) t.getJSONObject("artworks").getString("1000"));
             });
 
-            this.channelTrap = this.client.getGson().fromJson(jsonObject.toString(), Channel.class);
-            this.jsonObjectTrap = jsonObject;
+            this.channels.put(Channels.TRAP, this.client.getGson().fromJson(jsonObject.toString(), Channel.class));
         });
         socket.on("listeners", (Object... os) -> {
             if(os[0].toString() == null) this.allListeners = 0;
@@ -152,24 +148,10 @@ public class SocketManager {
         return jsonObjectOne;
     }
 
-    public JSONObject getJsonObjectDance() {
-        return jsonObjectDance;
-    }
-
-    public JSONObject getJsonObjectTrap() {
-        return jsonObjectTrap;
-    }
-
-    public Channel getChannelOne() {
-        return channelOne;
-    }
-
-    public Channel getChannelDance() {
-        return channelDance;
-    }
-
-    public Channel getChannelTrap() {
-        return channelTrap;
+    public Channel getChannel(Channels channel) {
+        Map.Entry<Channels, Channel> result = channels.entrySet().stream().filter(t -> t.getKey().equals(channel)).findFirst().orElse(null);
+        if(result == null) return null;
+        return result.getValue();
     }
 
     public int getAllListeners() {
