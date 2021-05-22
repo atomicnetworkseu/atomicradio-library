@@ -62,7 +62,7 @@ public class AtomicClient {
 
     /**
      * Returns the listener count of all channels.
-     * @return Returns the channel object.
+     * @return Returns the listener count as a Integer.
      */
     public int getAllListeners() {
         return this.socketManager.getAllListeners();
