@@ -1,5 +1,6 @@
 package eu.atomicradio.objects;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -23,8 +24,8 @@ public class Channel {
         private String artist;
         private String title;
         private String playlist;
-        private Long start_at;
-        private Long end_at;
+        private Date start_at;
+        private Date end_at;
         private int duration;
         private Artworks artworks;
 
@@ -81,12 +82,20 @@ public class Channel {
             return playlist;
         }
 
-        public Long getStart_at() {
+        public Date getStart_at() {
             return start_at;
         }
 
-        public Long getEnd_at() {
+        public void setStart_at(Date start_at) {
+            this.start_at = start_at;
+        }
+
+        public Date getEnd_at() {
             return end_at;
+        }
+
+        public void setEnd_at(Date end_at) {
+            this.end_at = end_at;
         }
 
         public int getDuration() {
@@ -107,14 +116,6 @@ public class Channel {
 
         public void setPlaylist(String playlist) {
             this.playlist = playlist;
-        }
-
-        public void setStart_at(Long start_at) {
-            this.start_at = start_at;
-        }
-
-        public void setEnd_at(Long end_at) {
-            this.end_at = end_at;
         }
 
         public void setDuration(int duration) {

@@ -8,5 +8,5 @@ package eu.atomicradio.objects;
  *
  */
 public enum Channels {
-    ONE,DANCE,TRAP;
+    ONE,GAMING,RAP;
 }

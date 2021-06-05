@@ -45,13 +45,9 @@ public class SocketManager {
         socket.on(Socket.EVENT_DISCONNECT, (Object... os) -> {
             this.client.getLogger().warning("The connection to the socket.io server has been closed.");
         });
-        socket.on("one", (Object... os) -> {
-            if(os[0].toString() == null) {
-                this.channels.remove(Channels.ONE);
-                this.jsonObjectOne = null;
-                return;
-            }
+        socket.on("channels", (Object... os) -> {
             JSONObject jsonObject = new JSONObject(os[0].toString());
+            String name = jsonObject.getString("name").substring(4);
             jsonObject.getJSONObject("song").getJSONObject("artworks").append("art100", jsonObject.getJSONObject("song").getJSONObject("artworks").getString("100"));
             jsonObject.getJSONObject("song").getJSONObject("artworks").append("art250", jsonObject.getJSONObject("song").getJSONObject("artworks").getString("250"));
             jsonObject.getJSONObject("song").getJSONObject("artworks").append("art500", jsonObject.getJSONObject("song").getJSONObject("artworks").getString("500"));
@@ -72,67 +68,14 @@ public class SocketManager {
                 t.getJSONObject("artworks").append("art500", (String) t.getJSONObject("artworks").getString("500"));
                 t.getJSONObject("artworks").append("art1000", (String) t.getJSONObject("artworks").getString("1000"));
             });
-
-            this.channels.put(Channels.ONE, this.client.getGson().fromJson(jsonObject.toString(), Channel.class));
-            this.jsonObjectOne = jsonObject;
-        });
-        socket.on("dance", (Object... os) -> {
-            if(os[0].toString() == null) {
-                this.channels.remove(Channels.DANCE);
-                return;
+            
+            try {
+                this.channels.put(Channels.valueOf(name.toUpperCase()), this.client.getGson().fromJson(jsonObject.toString(), Channel.class));
+                if(name.toUpperCase().equals("ONE")) {
+                    this.jsonObjectOne = jsonObject;
+                }
+            } catch(IllegalArgumentException ex) {
             }
-            JSONObject jsonObject = new JSONObject(os[0].toString());
-            jsonObject.getJSONObject("song").getJSONObject("artworks").append("art100", jsonObject.getJSONObject("song").getJSONObject("artworks").getString("100"));
-            jsonObject.getJSONObject("song").getJSONObject("artworks").append("art250", jsonObject.getJSONObject("song").getJSONObject("artworks").getString("250"));
-            jsonObject.getJSONObject("song").getJSONObject("artworks").append("art500", jsonObject.getJSONObject("song").getJSONObject("artworks").getString("500"));
-            jsonObject.getJSONObject("song").getJSONObject("artworks").append("art1000", jsonObject.getJSONObject("song").getJSONObject("artworks").getString("1000"));
-
-            ArrayList<JSONObject> history = this.getJsonArrayList(jsonObject.getJSONArray("history"));
-            history.stream().forEach(t -> {
-                t.getJSONObject("artworks").append("art100", (String) t.getJSONObject("artworks").getString("100"));
-                t.getJSONObject("artworks").append("art250", (String) t.getJSONObject("artworks").getString("250"));
-                t.getJSONObject("artworks").append("art500", (String) t.getJSONObject("artworks").getString("500"));
-                t.getJSONObject("artworks").append("art1000", (String) t.getJSONObject("artworks").getString("1000"));
-            });
-
-            ArrayList<JSONObject> schedule = this.getJsonArrayList(jsonObject.getJSONArray("schedule"));
-            schedule.stream().forEach(t -> {
-                t.getJSONObject("artworks").append("art100", (String) t.getJSONObject("artworks").getString("100"));
-                t.getJSONObject("artworks").append("art250", (String) t.getJSONObject("artworks").getString("250"));
-                t.getJSONObject("artworks").append("art500", (String) t.getJSONObject("artworks").getString("500"));
-                t.getJSONObject("artworks").append("art1000", (String) t.getJSONObject("artworks").getString("1000"));
-            });
-
-            this.channels.put(Channels.DANCE, this.client.getGson().fromJson(jsonObject.toString(), Channel.class));
-        });
-        socket.on("trap", (Object... os) -> {
-            if(os[0].toString() == null) {
-                this.channels.remove(Channels.TRAP);
-                return;
-            }
-            JSONObject jsonObject = new JSONObject(os[0].toString());
-            jsonObject.getJSONObject("song").getJSONObject("artworks").append("art100", jsonObject.getJSONObject("song").getJSONObject("artworks").getString("100"));
-            jsonObject.getJSONObject("song").getJSONObject("artworks").append("art250", jsonObject.getJSONObject("song").getJSONObject("artworks").getString("250"));
-            jsonObject.getJSONObject("song").getJSONObject("artworks").append("art500", jsonObject.getJSONObject("song").getJSONObject("artworks").getString("500"));
-            jsonObject.getJSONObject("song").getJSONObject("artworks").append("art1000", jsonObject.getJSONObject("song").getJSONObject("artworks").getString("1000"));
-
-            ArrayList<JSONObject> history = this.getJsonArrayList(jsonObject.getJSONArray("history"));
-            history.stream().forEach(t -> {
-                t.getJSONObject("artworks").append("art100", (String) t.getJSONObject("artworks").getString("100"));
-                t.getJSONObject("artworks").append("art250", (String) t.getJSONObject("artworks").getString("250"));
-                t.getJSONObject("artworks").append("art500", (String) t.getJSONObject("artworks").getString("500"));
-                t.getJSONObject("artworks").append("art1000", (String) t.getJSONObject("artworks").getString("1000"));
-            });
-
-            ArrayList<JSONObject> schedule = this.getJsonArrayList(jsonObject.getJSONArray("schedule"));
-            schedule.stream().forEach(t -> {
-                t.getJSONObject("artworks").append("art100", (String) t.getJSONObject("artworks").getString("100"));
-                t.getJSONObject("artworks").append("art250", (String) t.getJSONObject("artworks").getString("250"));
-                t.getJSONObject("artworks").append("art500", (String) t.getJSONObject("artworks").getString("500"));
-                t.getJSONObject("artworks").append("art1000", (String) t.getJSONObject("artworks").getString("1000"));
-            });
-
-            this.channels.put(Channels.TRAP, this.client.getGson().fromJson(jsonObject.toString(), Channel.class));
         });
         socket.on("listeners", (Object... os) -> {
             if(os[0].toString() == null) this.allListeners = 0;

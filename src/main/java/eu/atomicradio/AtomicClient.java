@@ -5,6 +5,7 @@ import eu.atomicradio.managers.SocketManager;
 import eu.atomicradio.objects.Channel;
 import eu.atomicradio.objects.Channels;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.logging.Logger;
 
 /**
@@ -78,8 +79,8 @@ public class AtomicClient {
         song.setTitle("LOADING...");
         song.setPlaylist("LOADING...");
         song.setDuration(0);
-        song.setStart_at(System.currentTimeMillis());
-        song.setEnd_at(System.currentTimeMillis());
+        song.setStart_at(new Date());
+        song.setEnd_at(new Date());
 
         Channel.Song.Artworks artworks = new Channel.Song.Artworks();
         artworks.setArt100(Arrays.asList("https://cdn.atomicradio.eu/artworks/fallback/0100.jpg"));
